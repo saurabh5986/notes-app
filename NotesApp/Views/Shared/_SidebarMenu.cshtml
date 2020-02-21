@@ -1,0 +1,39 @@
+﻿<aside class="left-sidebar">
+    <div class="scroll-sidebar">
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link @ViewBag.ActiveNoteList" href="/note-list" aria-expanded="false">
+                        <i class="ti-view-list"></i>
+                        <span class="hide-menu">Note List</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link @ViewBag.ActiveAddNote" href="/add-note" aria-expanded="false">
+                        <i class="ti-plus"></i>
+                        <span class="hide-menu">Add Note</span>
+                    </a>
+                </li>
+                @if (Session["Role"] != null && Session["Role"].ToString() == "Admin")
+                {
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link @ViewBag.BlockedIpList" href="/blocked-ip-list" aria-expanded="false">
+                            <i class="ti-na"></i>
+                            <span class="hide-menu">Blocked Ip List</span>
+                        </a>
+                    </li>
+                }
+                <li class="sidebar-item">
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:document.getElementById('logoutForm').submit()" aria-expanded="false">
+                            <i class="ti-power-off"></i>
+                            <span class="hide-menu">Log Out</span>
+                        </a>
+                    }
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>

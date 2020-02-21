@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NotesAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AuthenticationLog">
+          <Key>
+            <PropertyRef Name="AuthId" />
+          </Key>
+          <Property Name="AuthId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="LogType" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedUTC" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BLockedIp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="IpAddress" Type="nvarchar" MaxLength="300" />
+          <Property Name="CreatedUTC" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ImageId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImageBase64String" Type="nvarchar(max)" />
+          <Property Name="OCRText" Type="nvarchar(max)" />
+          <Property Name="CreatedUTC" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Notes">
+          <Key>
+            <PropertyRef Name="NoteId" />
+          </Key>
+          <Property Name="NoteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="NoteText" Type="nvarchar" MaxLength="300" />
+          <Property Name="CreatedUTC" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="150" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="150" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="150" />
+          <Property Name="Password" Type="nvarchar" MaxLength="150" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="UserType" Type="nvarchar" MaxLength="50" />
+          <Property Name="IpAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedUTC" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Authentic__UserI__286302EC">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="AuthenticationLog" Type="Self.AuthenticationLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="AuthenticationLog">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BLockedIp__UserI__36B12243">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="BLockedIp" Type="Self.BLockedIp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="BLockedIp">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Notes__UserId__25869641">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Notes" Type="Self.Notes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Notes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NotesAppModelStoreContainer">
+          <EntitySet Name="AuthenticationLog" EntityType="Self.AuthenticationLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BLockedIp" EntityType="Self.BLockedIp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notes" EntityType="Self.Notes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Authentic__UserI__286302EC" Association="Self.FK__Authentic__UserI__286302EC">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="AuthenticationLog" EntitySet="AuthenticationLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BLockedIp__UserI__36B12243" Association="Self.FK__BLockedIp__UserI__36B12243">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="BLockedIp" EntitySet="BLockedIp" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Notes__UserId__25869641" Association="Self.FK__Notes__UserId__25869641">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Notes" EntitySet="Notes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NotesAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="NotesAppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Users" EntityType="NotesAppModel.User" />
+          <EntitySet Name="Notes" EntityType="NotesAppModel.Note" />
+          <AssociationSet Name="FK__Notes__UserId__25869641" Association="NotesAppModel.FK__Notes__UserId__25869641">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Note" EntitySet="Notes" />
+          </AssociationSet>
+          <EntitySet Name="AuthenticationLogs" EntityType="NotesAppModel.AuthenticationLog" />
+          <AssociationSet Name="FK__Authentic__UserI__286302EC" Association="NotesAppModel.FK__Authentic__UserI__286302EC">
+            <End Role="User" EntitySet="Users" />
+            <End Role="AuthenticationLog" EntitySet="AuthenticationLogs" />
+          </AssociationSet>
+          <EntitySet Name="BLockedIps" EntityType="NotesAppModel.BLockedIp" />
+          <AssociationSet Name="FK__BLockedIp__UserI__36B12243" Association="NotesAppModel.FK__BLockedIp__UserI__36B12243">
+            <End Role="User" EntitySet="Users" />
+            <End Role="BLockedIp" EntitySet="BLockedIps" />
+          </AssociationSet>
+          <EntitySet Name="Images" EntityType="NotesAppModel.Image" />
+          </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="UserType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IpAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Notes" Relationship="NotesAppModel.FK__Notes__UserId__25869641" FromRole="User" ToRole="Note" />
+          <NavigationProperty Name="AuthenticationLogs" Relationship="NotesAppModel.FK__Authentic__UserI__286302EC" FromRole="User" ToRole="AuthenticationLog" />
+          <NavigationProperty Name="BLockedIps" Relationship="NotesAppModel.FK__BLockedIp__UserI__36B12243" FromRole="User" ToRole="BLockedIp" />
+        </EntityType>
+        <EntityType Name="Note">
+          <Key>
+            <PropertyRef Name="NoteId" />
+          </Key>
+          <Property Name="NoteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="NoteText" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="NotesAppModel.FK__Notes__UserId__25869641" FromRole="Note" ToRole="User" />
+        </EntityType>
+        <Association Name="FK__Notes__UserId__25869641">
+          <End Type="NotesAppModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="NotesAppModel.Note" Role="Note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Note">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AuthenticationLog">
+          <Key>
+            <PropertyRef Name="AuthId" />
+          </Key>
+          <Property Name="AuthId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="LogType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="NotesAppModel.FK__Authentic__UserI__286302EC" FromRole="AuthenticationLog" ToRole="User" />
+        </EntityType>
+        <Association Name="FK__Authentic__UserI__286302EC">
+          <End Type="NotesAppModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="NotesAppModel.AuthenticationLog" Role="AuthenticationLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="AuthenticationLog">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BLockedIp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="IpAddress" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="NotesAppModel.FK__BLockedIp__UserI__36B12243" FromRole="BLockedIp" ToRole="User" />
+        </EntityType>
+        <Association Name="FK__BLockedIp__UserI__36B12243">
+          <End Type="NotesAppModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="NotesAppModel.BLockedIp" Role="BLockedIp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="BLockedIp">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ImageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageBase64String" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OCRText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NotesAppModelStoreContainer" CdmEntityContainer="NotesAppEntities">
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="NotesAppModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="IpAddress" ColumnName="IpAddress" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notes">
+            <EntityTypeMapping TypeName="NotesAppModel.Note">
+              <MappingFragment StoreEntitySet="Notes">
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="NoteText" ColumnName="NoteText" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="NoteId" ColumnName="NoteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuthenticationLogs">
+            <EntityTypeMapping TypeName="NotesAppModel.AuthenticationLog">
+              <MappingFragment StoreEntitySet="AuthenticationLog">
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="LogType" ColumnName="LogType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AuthId" ColumnName="AuthId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BLockedIps">
+            <EntityTypeMapping TypeName="NotesAppModel.BLockedIp">
+              <MappingFragment StoreEntitySet="BLockedIp">
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="IpAddress" ColumnName="IpAddress" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="NotesAppModel.Image">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="OCRText" ColumnName="OCRText" />
+                <ScalarProperty Name="ImageBase64String" ColumnName="ImageBase64String" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

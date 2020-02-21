@@ -1,0 +1,47 @@
+﻿@model NotesApp.Business.NoteViewModel
+@{
+    ViewBag.Title = "Add Note";
+}
+
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-5 align-self-center">
+            <h4 class="page-title">Add Note</h4>
+        </div>
+        <div class="col-7 align-self-center">
+            <div class="d-flex align-items-center justify-content-end">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Add Note</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm("Add", "Notes", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            @Html.TextAreaFor(model => model.NoteText, new { @class = "form-control", @placeholder = "Enter note text" })
+                            <small id="emailHelp" class="form-text text-muted">You can add any type of text to notes.</small>
+                            @Html.ValidationMessageFor(model => model.NoteText, "", new { @class = "text-danger" })
+                        </div>
+                        <input type="submit" class="btn btn-success" name="submitButton" value="Save" />
+                        <input type="submit" class="btn btn-primary" name="submitButton" value="Save & Add More" />
+                        <a href="/note-list" class="btn btn-danger">Cancel</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

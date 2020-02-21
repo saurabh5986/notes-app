@@ -1,0 +1,10 @@
+.vs/
+/packages
+/NotesApp.Tests/obj
+/NotesApp.Tests/bin
+/NotesApp.Business/obj
+/NotesApp.Business/bin
+/NotesApp.API/obj
+/NotesApp.API/bin
+/NotesApp/obj
+/NotesApp/bin

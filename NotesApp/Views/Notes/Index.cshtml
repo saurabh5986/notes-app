@@ -1,0 +1,107 @@
+﻿@model NotesApp.Business.NotesResultView
+
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-5 align-self-center">
+            <h4 class="page-title">Note List</h4>
+        </div>
+        <div class="col-7 align-self-center">
+            <div class="d-flex align-items-center justify-content-end">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Note List</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12">
+        <!-- Card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Filter By Date</h4>
+                <h6 class="card-subtitle">select date and click submit to filter by dates</h6>
+                <div class="row">
+                    @using (Html.BeginForm("Index", "Notes", FormMethod.Post, new { @class = "w-100" }))
+                    {
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control datepicker", @placeholder = "From Date" })
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="icon-calender"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control datepicker", @placeholder = "To Date" })
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="icon-calender"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="btn btn-primary" type="submit" value="Submit">
+                                </div>
+                                <div class="col-md-2" style="text-align:right">
+                                    <a href="/add-note" class="btn btn-success"> <i class="ti-plus"></i> Add New Note</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        @if (Model.Notes.Count() > 0)
+                        {
+                            foreach (var item in Model.Notes)
+                            {
+                                <div class="col-md-4">
+                                    <div class="alert alert-info">
+                                        <h3 class="text-info">
+                                            @item.NoteText
+                                        </h3>
+                                        <div style="text-align:right">
+                                            <small> @TimeZoneInfo.ConvertTimeFromUtc(@item.CreatedUTC.Value, TimeZoneInfo.Local).ToString("dd MMM yyyy hh:mm:ss tt")</small><br />
+                                            <small>By <strong>@item.User.FirstName @item.User.LastName</strong></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-md-12">
+                                <span style="text-align:center">No notes found <br /> <a href="/add-note">Click Here </a>to create new note</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $('.datepicker').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            format: "dd-M-yyyy"
+        });
+    </script>
+}
