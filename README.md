@@ -4,7 +4,8 @@
 Code relate to task 1 will be found in NotesApp folder
 
 # task 2 demo : https://dl.dropboxusercontent.com/s/u8pu78e1swu1wml/Hr77ev72RP.mp4
-Code related to task 2 will be found in NotesApp.API foder
+Code related to task 2 will be found in NotesApp.API folder 
+
 library used for OCR : https://tesseract.patagames.com/
 
 # to convert image to base64string website used
